@@ -1,10 +1,14 @@
 # horse_racing_to_the_moon
 
+
+This project aims to train a machine learning model to predict the result of a horse race, by providing related information of the horse and the race.
+
 Data collection:
-- response.text from requests.get() return no desired info with 'tr' tag, the website is likely to be loaded with js instead html
-- requests and bs4 may not be suitable to extract the informations. Can try selenium to scrape dynamically after rendering JS content.
-- 'race_scraper.ipynb' scrape the data and store them into the 'data' file
+- Hong Kong: https://racing.hkjc.com/racing/information/English/Horse/ListByLocation.aspx?Location=HK 
+- Conghua: https://racing.hkjc.com/racing/information/English/Horse/ListByLocation.aspx?Location=CH 
 
-
-- rating of horses can be scraped from' https://www.hkjc.com/home/chinese/index.aspx'
+Modeling:
+- using learning-to-rank models to output the ranking:
+    1) pairwise approach (RankNet): probability that one horse will finish ahead of another
+    2) listwise approach (ListNet, ListMLE, XGBoost with ranking objective): directly predict the best overall ordering of all horses in a race
 
