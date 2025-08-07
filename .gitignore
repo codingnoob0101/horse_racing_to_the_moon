@@ -208,6 +208,7 @@ __marimo__/
 
 # Data
 *.csv
+*.pdf
 
 # Apple DS_Store file
 .DS_Store
