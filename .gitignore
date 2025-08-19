@@ -212,3 +212,6 @@ __marimo__/
 
 # Apple DS_Store file
 .DS_Store
+
+# catboost folder
+catboost_info/
