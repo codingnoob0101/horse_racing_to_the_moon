@@ -11,9 +11,13 @@ Data collection:
 
 scraped dataframe contain 25 columns, which further engineering were done
 
-Current problem: horse id contain strange data
+Data cleaning:
+- data are cleaned in different aspect
+- excluded all the horses that have the 'WV' labels, as they didn't participate the race at last
+- included one hot encoding for gears of the horses
 
 
 Modeling:
-- using learning-to-rank models to output the ranking:
-    XGBoost support learning to rank task (objective = 'rank:ndcg, or objective = 'rank:pairwise')
+- using learning-to-rank models to output the ranking, catboost are being chosen for the problem.
+    approach (1): by using all the variables in the dataset, the cardinality of some variables are being reduced (min frequency set at 10)
+    
