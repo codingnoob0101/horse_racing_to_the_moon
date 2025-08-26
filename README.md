@@ -15,6 +15,7 @@ Data cleaning:
 - data are cleaned in different aspect
 - excluded all the horses that have the 'WV' labels, as they didn't participate the race at last
 - included one hot encoding for gears of the horses
+- 
 
 
 Modeling:
