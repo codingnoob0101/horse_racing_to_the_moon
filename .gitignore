@@ -215,3 +215,6 @@ __marimo__/
 
 # catboost folder
 catboost_info/
+
+# models
+*.cbm
