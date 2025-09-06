@@ -20,5 +20,10 @@ Data cleaning:
 
 Modeling:
 - using learning-to-rank models to output the ranking, catboost are being chosen for the problem.
-    approach (1): by using all the variables in the dataset, the cardinality of some variables are being reduced (min frequency set at 10)
-    
+    current model include: 
+        categorical: race distance, track condition, race class, gate position, trainer, jockey, import type, sire, dam, dam sire, race course, track, course, origin, age, colour, sex
+        numerical: rating, win odds, act weight, declar. horse weight
+
+Inferencing:
+- input race card url and odds url for scraping of latest pre-race data.
+- 'Final_inference' will output the name of the horse and predicted score by decending order (higher the score, better the rank being predicted)
