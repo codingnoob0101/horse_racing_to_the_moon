@@ -251,6 +251,46 @@ def scrape_current_race(race_url, odds_url):
 
     return final_df
 
+def scrape_current_race_no_odds(race_url):
+    http_headers = {"User-Agent": "Mozilla/5.0 (compatible; HKJCScraper/1.0)"}
+    response = requests.get(race_url, headers=http_headers)
+
+    if response.status_code != 200:
+        print('races not found')
+        return pd.DataFrame()
+
+    soup = BeautifulSoup(response.text, 'html.parser')
+
+    venue, track, course, distance, condition, race_class = get_race_info(soup)
+    df_horse_in_race = get_horse_info(soup)
+    participating_horse_links = get_race_horse(soup)
+    df_basic_info = scrape_horses(participating_horse_links)
+
+    df = pd.concat([df_horse_in_race, df_basic_info], axis=1)
+    df['rc'] = venue
+    df['track'] = track
+    df['course'] = course
+    df['Dist.'] = distance
+    df['track_condition'] = condition
+    df['RaceClass'] = race_class
+
+    df[['origin', 'age']] = df['Origin / Age'].apply(clean_origin_age).apply(pd.Series)
+    df = df.drop(columns=['Origin / Age'])
+
+    df[['colour', 'sex']] = df['Colour / Sex'].apply(clean_colour_sex).apply(pd.Series)
+    df = df.drop(columns=['Colour / Sex'])
+
+    # Define feature columns order same as training
+    feature_cols = [
+        'Dist.', 'track_condition', 'RaceClass', 'gate_position', 'Trainer', 'Jockey', 'Import type',
+        'Sire', 'Dam', "Dam sire", 'rc', 'track', 'course', 'origin', 'age', 'colour', 'sex',
+        'Rtg.', 'Act.Wt.', 'Declar.Horse Wt.', 'Horse_name'
+    ]
+
+    # Reorder columns in final_df to match training order, safely handle missing columns
+    final_df = final_df.reindex(columns=feature_cols)
+
+    return final_df
 
 if __name__ == "__main__":
     # Example URLs
