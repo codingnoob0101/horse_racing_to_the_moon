@@ -288,7 +288,7 @@ def scrape_current_race_no_odds(race_url):
     ]
 
     # Reorder columns in final_df to match training order, safely handle missing columns
-    final_df = final_df.reindex(columns=feature_cols)
+    final_df = df.reindex(columns=feature_cols)
 
     return final_df
 

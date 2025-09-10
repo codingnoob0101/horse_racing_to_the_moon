@@ -20,10 +20,14 @@ Data cleaning:
 
 Modeling:
 - using learning-to-rank models to output the ranking, catboost are being chosen for the problem.
-    current model include: 
-        categorical: race distance, track condition, race class, gate position, trainer, jockey, import type, sire, dam, dam sire, race course, track, course, origin, age, colour, sex
-        numerical: rating, win odds, act weight, declar. horse weight
+    there are two models included: 
+    1) include the following variables:
+        - categorical: race distance, track condition, race class, gate position, trainer, jockey, import type, sire, dam, dam sire, race course, track, course, origin, age, colour, sex
+        - numerical: rating, win odds, act weight, declar. horse weight
+    2) include all the above variables, except 'win odds'
+    3) tried to also include gears used by horse within the race, but the NDCG score is lowered
 
 Inferencing:
 - input race card url and odds url for scraping of latest pre-race data.
 - 'Final_inference' will output the name of the horse and predicted score by decending order (higher the score, better the rank being predicted)
+- two functions inluded, one included win odds and one without
