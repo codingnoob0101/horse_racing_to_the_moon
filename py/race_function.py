@@ -32,10 +32,15 @@ awt_going_dict = {
 }
 
 def get_race_info(soup):
-    result = soup.find('div', class_='f_fs13')
+
+    result = soup.find('div', class_ = 'f_fs13')
     lines = list(result.stripped_strings)
 
-    venue = lines[1].split(',')[3].strip()
+    # find venue
+    venue = lines[1]
+    venue = venue.split(',')
+    venue = venue[3]
+    venue = venue.strip()
     if venue == 'Sha Tin':
         venue = 'ST'
     elif venue == 'Happy Valley':
@@ -43,11 +48,20 @@ def get_race_info(soup):
     else:
         venue = 'not found'
 
+    # find track, course, distance, and condition
     info = lines[2].split(',')
     track = info[0].strip()
-    course = info[1].replace('"', '').replace('Course', '').strip()
-    distance = info[2].replace('M', '').strip()
-    condition = info[3].strip()
+
+    if track != 'All Weather Track':
+        course = info[1].replace('"', '').replace('Course', '').strip()
+        distance = info[2].replace('M', '').strip()
+        condition = info[3].strip()
+
+    elif track == 'All Weather Track':
+        track = 'AWT'
+        course = ''
+        distance = info[1].replace('M', '').strip()
+        condition = info[2].strip()
 
     if track.lower() == 'turf':
         condition = turf_going_dict.get(condition, 'Unknown')
@@ -57,9 +71,12 @@ def get_race_info(soup):
         condition = 'Unknown'
         print('track condition unknown')
 
-    race_class = lines[3].split(',')[3].replace('Class', '').strip()
+    # find class
+    race_class = lines[3].split(',')
+    race_class = race_class[3].replace('Class', '').strip()
 
     return venue, track, course, distance, condition, race_class
+
 
 def get_horse_info(soup):
     header = ['Act.Wt.', 'Jockey', 'gate_position', 'Trainer', 'Rtg.', 'Declar.Horse Wt.']
@@ -251,7 +268,7 @@ def scrape_current_race(race_url, odds_url):
 
     return final_df
 
-def scrape_current_race_no_odds(race_url):
+def scrape_current_race_no_odds_gates(race_url):
     http_headers = {"User-Agent": "Mozilla/5.0 (compatible; HKJCScraper/1.0)"}
     response = requests.get(race_url, headers=http_headers)
 
@@ -282,7 +299,7 @@ def scrape_current_race_no_odds(race_url):
 
     # Define feature columns order same as training
     feature_cols = [
-        'Dist.', 'track_condition', 'RaceClass', 'gate_position', 'Trainer', 'Jockey', 'Import type',
+        'Dist.', 'track_condition', 'RaceClass', 'Trainer', 'Jockey', 'Import type',
         'Sire', 'Dam', "Dam sire", 'rc', 'track', 'course', 'origin', 'age', 'colour', 'sex',
         'Rtg.', 'Act.Wt.', 'Declar.Horse Wt.', 'Horse_name'
     ]
