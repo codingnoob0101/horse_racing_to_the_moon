@@ -31,3 +31,19 @@ Inferencing:
 - input race card url and odds url for scraping of latest pre-race data.
 - 'Final_inference' will output the name of the horse and predicted score by decending order (higher the score, better the rank being predicted)
 - two functions inluded, one included win odds and one without
+
+
+version_2:
+
+features being used:
+categorical_cols = [
+    'Dist.', 'track_condition', 'RaceClass', 'Trainer', 'Jockey', 'Dam sire', 'rc', 'track', 'course', 
+    'Import type', 'Sire', 'Dam', 'origin', 'age', 'colour', 'sex'
+]
+
+numerical_cols = [
+    'Rtg.', 'Act.Wt.', 'Declar.Horse Wt.','recent_3_win_rate_horse',
+       'recent_3_win_rate_jockey', 'recent_5_avg_finish_pos',
+       'recent_3_consistency', 'jockey_trainer_combo_rate',
+       'horse_track_distance_rate'
+]

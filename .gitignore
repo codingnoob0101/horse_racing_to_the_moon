@@ -218,3 +218,6 @@ catboost_info/
 
 # models
 *.cbm
+
+# imputer
+*.pkl

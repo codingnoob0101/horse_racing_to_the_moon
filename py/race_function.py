@@ -123,7 +123,7 @@ def get_race_horse(soup):
     return all_links
 
 def scrape_horses(all_links):
-    header = ['Horse_name', 'Origin / Age', 'Colour / Sex', 'Import type', 'Sire', 'Dam', "Dam sire"]
+    header = ['Horse_name', 'Horse_id', 'Origin / Age', 'Colour / Sex', 'Import type', 'Sire', 'Dam', "Dam sire"]
     rows = []
 
     for ref in all_links:
@@ -132,6 +132,9 @@ def scrape_horses(all_links):
         except Exception as e:
             print(f'Request exception for {ref}: {str(e)}')
             continue
+
+        match = re.search(r'([A-Z]\d{3})$', ref)
+        horse_id = match.group(1) if match else None
 
         soup = BeautifulSoup(response.content, 'html.parser')
 
@@ -152,7 +155,7 @@ def scrape_horses(all_links):
         dam_info = get_info('Dam')
         dam_sire_info = get_info("Dam's Sire")
 
-        rows.append([horse_name, origin_info, colour_info, import_info, sire_info, dam_info, dam_sire_info])
+        rows.append([horse_name, horse_id, origin_info, colour_info, import_info, sire_info, dam_info, dam_sire_info])
 
     return pd.DataFrame(rows, columns=header)
 
@@ -284,7 +287,7 @@ def scrape_current_race_no_odds(race_url):
     feature_cols = [
         'Dist.', 'track_condition', 'RaceClass', 'gate_position', 'Trainer', 'Jockey', 'Import type',
         'Sire', 'Dam', "Dam sire", 'rc', 'track', 'course', 'origin', 'age', 'colour', 'sex',
-        'Rtg.', 'Act.Wt.', 'Declar.Horse Wt.', 'Horse_name'
+        'Rtg.', 'Act.Wt.', 'Declar.Horse Wt.', 'Horse_name', 'Horse_id'
     ]
 
     # Reorder columns in final_df to match training order, safely handle missing columns
