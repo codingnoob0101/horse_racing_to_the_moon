@@ -47,11 +47,19 @@ def get_race_info(soup):
     track = info[0].strip()
     course = info[1].replace('"', '').replace('Course', '').strip()
     distance = info[2].replace('M', '').strip()
-    condition = info[3].strip()
 
     if track.lower() == 'turf':
+        track = info[0].strip()
+        course = info[1].replace('"', '').replace('Course', '').strip()
+        distance = info[2].replace('M', '').strip()
+        condition = info[3].strip()
         condition = turf_going_dict.get(condition, 'Unknown')
+
     elif track.lower() == 'awt':
+        track = info[0].strip()
+        course = np.nan # store as missing
+        distance = info[1].replace('M', '').strip()
+        condition = info[2].strip()
         condition = awt_going_dict.get(condition, 'Unknown')
     else:
         condition = 'Unknown'
